@@ -1,0 +1,215 @@
+﻿<Window
+    
+
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MyPaint"
+        xmlns:Custom="http://schemas.microsoft.com/winfx/2006/xaml/presentation/ribbon" xmlns:Forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    x:Name="MainWindow1" x:Class="MyPaint.MainWindow"
+        mc:Ignorable="d"
+        Title="My Paint" Height="531.975" Width="807.986" WindowStyle="SingleBorderWindow" Loaded="MainWindow_Loaded" PreviewKeyDown="MainWindow_PreKeyDwn" SizeToContent="WidthAndHeight" Closed="MainWindow1_Closed" MinWidth="300" MinHeight="500" PreviewKeyUp="MainWindow1_PreviewKeyUp" ResizeMode="NoResize">
+    <Window.Resources>
+        <ItemsPanelTemplate x:Key="VSP">
+            <VirtualizingStackPanel/>
+        </ItemsPanelTemplate>
+        <ObjectDataProvider MethodName="GetType"
+        ObjectType="{x:Type sys:Type}" x:Key="colorsTypeOdp">
+            <ObjectDataProvider.MethodParameters>
+                <sys:String>System.Windows.Media.Colors, PresentationCore,
+                Version=3.0.0.0, Culture=neutral,
+                PublicKeyToken=31bf3856ad364e35</sys:String>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+
+        <ObjectDataProvider ObjectInstance="{StaticResource colorsTypeOdp}"
+        MethodName="GetProperties" x:Key="colorPropertiesOdp">
+        </ObjectDataProvider>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="Copy" Executed="copyMenuItem_Click"></CommandBinding>
+        <CommandBinding Command="Cut" Executed="cutMenuItem_Click"></CommandBinding>
+        <CommandBinding Command="Paste" Executed="pasteMenuItem_Click"></CommandBinding>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key ="C" Modifiers="Control" Command="Copy"></KeyBinding>
+        <KeyBinding Key ="V" Modifiers="Control" Command="Paste"></KeyBinding>
+        <KeyBinding Key ="X" Modifiers="Control" Command="Cut"></KeyBinding>
+
+    </Window.InputBindings>
+
+
+
+
+    <Grid x:Name="mainGrid">
+
+        <Image x:Name="Background"  
+			Width="697"
+			Height="367"
+			VerticalAlignment="Top"
+			HorizontalAlignment="Left" Margin="0,138,0,0" MouseDown="Background_MouseDown" MouseMove="Background_MouseMove" MouseUp="Background_MouseUp" Cursor="">
+            <Image.ContextMenu>
+                <ContextMenu>
+                    <MenuItem x:Name="cutMenuItem"  Header="Cut" IsEnabled="false" InputGestureText="Ctrl+X" Click="cutMenuItem_Click"/>
+                    <MenuItem x:Name="copyMenuItem" Header="Copy" IsEnabled="false" InputGestureText="Ctrl+C" Click="copyMenuItem_Click"/>
+                    <MenuItem x:Name="pasteMenuItem" Header="Paste" IsEnabled="false" InputGestureText="Ctrl+V" Click="pasteMenuItem_Click"/>
+                    <MenuItem x:Name="deleteMenuItem" Header="Delete" IsEnabled="false" Click="deleteMenuItem_Click"/>
+                </ContextMenu>
+            </Image.ContextMenu>
+        </Image>
+        <Custom:Ribbon Name="mainRibbon" VerticalAlignment="Top" SelectedIndex="0" Grid.ColumnSpan="2" Height="138">
+            <Custom:Ribbon.ApplicationMenu>
+                <Custom:RibbonApplicationMenu x:Name="ribbonApplicationMenu" Loaded="RibbonApplicationMenu_Loaded">
+                    <Custom:RibbonButton x:Name="newButton" Label="New - LCtrl + N" LargeImageSource="Resources/new-file-icon.png" Click="newButton_Click" Width="100"/>
+                    <Custom:RibbonButton x:Name="openButton" Label="Open - LCtrl + O" LargeImageSource="Resources/open-file-icon.png" Click="openButton_Click" Width="100"/>
+                    <Custom:RibbonButton x:Name="saveButton" Label="Save - LCtrl + S" LargeImageSource="Resources/save-icon.png" Click="saveButton_Click" Width="100"/>
+                    <Custom:RibbonButton x:Name="saveAsButton" Label="Save As - LCtrl + Shift + S" LargeImageSource="Resources/save-as-icon.png" Click="saveAsButton_Click" Width="100"/>
+                </Custom:RibbonApplicationMenu>
+            </Custom:Ribbon.ApplicationMenu>
+            <Custom:RibbonTab Header="Home" Height="88" VerticalAlignment="Bottom" Margin="0,0,-2,0">
+                <Custom:RibbonGroup Header="Text" Margin="0" LargeImageSource="Resources/paste-icon.png">
+                    <Custom:RibbonToggleButton x:Name="textRibbonButton" LargeImageSource="Resources/text-icon.png" SmallImageSource="Resources/text-icon.png" Height="52" Checked="textRibbonButton_Checked" Unchecked="textRibbonButton_Unchecked" Margin="0,5,0,7" />
+                </Custom:RibbonGroup>
+                <Custom:RibbonGroup x:Name="___No_Name_" Header="Tools" LargeImageSource="Resources/selection-tool.png">
+                    <Custom:RibbonToggleButton x:Name="selectRibbonButton" Label="Select" LargeImageSource="Resources/selection-tool.png" SmallImageSource="Resources/selection-tool.png" ToolTipTitle="Select a shape" Checked="selectRibbonButton_Checked" Unchecked="selectRibbonButton_Unchecked" Background="{x:Null}" Height="Auto" >
+                        <Border BorderBrush="Black" BorderThickness="1"/>
+                    </Custom:RibbonToggleButton>
+                    <Custom:RibbonToggleButton x:Name="ButtonRotate" Label="Rotate" LargeImageSource="Resources/rotate-icon.png" SmallImageSource="Resources/rotate-icon.png" ToolTipTitle="Rotate a shape" HorizontalAlignment="Left" Margin="0,1,0,-32" VerticalAlignment="Top"  Checked="buttonRotate_Checked" Unchecked="buttonRotate_Unchecked" Background="{x:Null}" IsEnabled="False" Height="Auto">
+                        <Border BorderBrush="Black" BorderThickness="1" Height="60" Width="100"/>
+                    </Custom:RibbonToggleButton>
+                    <Custom:RibbonButton x:Name="undoButton" Label="" SmallImageSource="Resources/Undo-icon.png" Height="33" RenderTransformOrigin="3.318,-1.136" Click="undoButton_Click" IsEnabled="False"/>
+                    <Custom:RibbonButton x:Name="redoButton" Label="" SmallImageSource="Resources/Redo-icon.png" IsEnabled="False" VerticalAlignment="Bottom" Click="redoButton_Click"/>
+                </Custom:RibbonGroup>
+                <Custom:RibbonGroup Margin="0" Height="88" Header="Shape" LargeImageSource="Resources/shapes-icon.png" ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                    <DockPanel Margin="0,0,-76,-139" LastChildFill="True">
+                        <Custom:RibbonButton x:Name="RibbonShapesBtn" Label="Shapes" LargeImageSource="Resources/shapes-icon.png" SmallImageSource="Resources/shapes-icon.png" Width="73" Height="Auto" Margin="0,0,0,84" MouseOverBackground="{x:Null}" IsEnabled="False" Opacity="2"/>
+                        <ComboBox  x:Name="CbBox_Shapes" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="87" Height="24" ItemsSource="{Binding}" BorderBrush="White" Opacity="2" Background="{x:Null}" SelectionChanged="CbBox_Shapes_SelectionChanged" Margin="0,0,0,115" IsEditable="True" LostFocus="CbBox_Shapes_LostFocus" PreviewTextInput="CbBox_Shapes_PreTextInput" GotFocus="CbBox_Shapes_GotFocus"/>
+                    </DockPanel>
+                    <Custom:RibbonComboBox x:Name="ribbonComboBox" Label="ComboBox" Margin="-6,33,6,-33" Visibility="Hidden"/>
+                </Custom:RibbonGroup>
+                <Custom:RibbonGroup Header="Colors" Margin="0" RenderTransformOrigin="0.5,0.5" LargeImageSource="Resources/colors-icon.png">
+                    <ListBox x:Name="listBox_Colors" ItemsSource="{Binding Source={StaticResource colorPropertiesOdp}}"
+                	ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                	ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,10,-130,12" MouseLeftButtonUp="listBox_Colors_MouseLeftBtnUp" MouseRightButtonUp="listBox_Colors_MouseRightBtnUp" Cursor="Pen"  >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="5" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Ellipse Fill="{Binding Name}" Stroke="Black" StrokeThickness="1" Height="10" Width="10" ToolTip="{Binding Name}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Label x:Name="lable_Color1" Content="Color 1" HorizontalAlignment="Left" Height="25" Margin="210,-30,-224,0" VerticalAlignment="Top" Width="52"/>
+                    <Label x:Name="lable_Color2" Content="Color 2" HorizontalAlignment="Left" Height="25" Margin="232,39,-246,-57" VerticalAlignment="Top" Width="52" RenderTransformOrigin="0.519,1"/>
+                    <Ellipse x:Name="ellipse_Color1" Fill="Black" HorizontalAlignment="Left" Margin="174,0,-213,-35" Stroke="Black" Width="42" RenderTransformOrigin="0.012,0.557"/>
+                    <Ellipse x:Name="ellipse_Color2" Fill="Transparent" HorizontalAlignment="Left" Margin="234,0,-277,-35" Stroke="Black" Width="44"/>
+                    <Slider x:Name="SliderOpacity" Margin="92,10,-162,-17" Maximum="100" RenderTransformOrigin="0.81,0.08" AutoToolTipPlacement="TopLeft" Cursor="Arrow" Value="100" PreviewMouseLeftButtonUp="SliderOpacity_PreLeftBtnUp" ToolTip="Opacity" Background="Transparent" Height="21"/>
+                    <Custom:RibbonComboBox Width="280" Visibility="Hidden" />
+                </Custom:RibbonGroup>
+                <Custom:RibbonGroup Header="Pen" Margin="0" LargeImageSource="Resources/pen-icon.png">
+                    <Custom:RibbonMenuButton LargeImageSource="Resources/pen-icon.png">
+                        <Custom:RibbonGallery Height="100">
+                            <UniformGrid Columns="2" Rows="3" Margin="0,0,0,-84" MaxWidth="200" MinWidth="200">
+                                <RadioButton x:Name="RadioBtn_SolidPenIcon" Checked="RadioBtn_SolidPenIcon_Checked" IsChecked="True">
+                                    <Image  Source="Resources/SolidPen.png"></Image>
+                                </RadioButton>
+                                <RadioButton x:Name="RadioBtn_DashPenIcon" Checked="RadioBtn_DashPenIcon_Checked" >
+                                    <Image Source="Resources/DashPen.png"></Image>
+                                </RadioButton >
+                                <RadioButton x:Name="RadioBtn_DotPenIcon" Checked="RadioBtn_DotPenIcon_Checked">
+                                    <Image  Source="Resources/DotPen.png"></Image>
+                                </RadioButton>
+                                <RadioButton x:Name="RadioBtn_DashDotDotPenIcon" Checked="RadioBtn_DashDotDotPenIcon_Checked">
+                                    <Image  Source="Resources/DashDotDotPen.png"></Image>
+                                </RadioButton>
+                                <RadioButton x:Name="RadioBtn_DashtDotPenIcon" Checked="RadioBtn_DashtDotPenIcon_Checked">
+                                    <Image  Source="Resources/DashDotPen.png"></Image>
+                                </RadioButton>
+
+
+                            </UniformGrid>
+                        </Custom:RibbonGallery>
+                    </Custom:RibbonMenuButton>
+                    <Slider x:Name="SliderWidthOutline" HorizontalAlignment="Left" Height="59" Margin="26,3,0,-34" VerticalAlignment="Top" Width="31" AutoToolTipPlacement="TopLeft" Maximum="50" Minimum="1" ToolTip="Width" PreviewMouseLeftButtonUp="SliderWidthOutline_PreMouseLeftBtnUp" Orientation="Vertical" />
+
+                </Custom:RibbonGroup>
+
+                <Custom:RibbonGroup Header="Brush" Margin="0" LargeImageSource="Resources/brush-icon.png">
+                    <Custom:RibbonMenuButton LargeImageSource="Resources/brush-icon.png">
+                        <Custom:RibbonGallery Height="100">
+                            <RadioButton x:Name="RadioBtn_Solid" Checked="RadioBtn_Solid_Checked">Solid
+                            </RadioButton>
+                            <RadioButton x:Name="RadioBtn_Gradient" Checked="RadioBtn_Gradient_Checked">Gradient
+
+                            </RadioButton>
+                            <RadioButton x:Name="radioBtnPattern" Checked="radioBtnPattern_Checked">Pattern
+                            </RadioButton>
+                            <Custom:RibbonComboBox Label="ComboBox" Width="64" Visibility="Hidden"/>
+                        </Custom:RibbonGallery>
+                    </Custom:RibbonMenuButton>
+                </Custom:RibbonGroup>
+            </Custom:RibbonTab>
+            <Custom:RibbonTab Name="textDesign" Header="Text design" Height="88" VerticalAlignment="Bottom" Margin="0,0,-2,0" Visibility="Hidden" >
+
+                <Custom:RibbonGroup Header="Fonts" Margin="0" Width="231">
+                    <ComboBox x:Name="cbFonts" Width="150" ItemsSource="{Binding Source={x:Static Fonts.SystemFontFamilies}}" ItemsPanel="{StaticResource VSP}" SelectedIndex="1" Margin="59,5,-59,-5" SelectionChanged="cbFonts_SelectionChanged_1" IsEditable="True">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <ComboBox x:Name="cbFontSize" Margin="60,14,-60,-6" Width="52" ItemsSource="{Binding}" Loaded="cbFontSize_Loaded" IsEditable="True" SelectedIndex="1" SelectionChanged="cbFontSize_SelectionChanged" />
+                    <Label x:Name="label" Content="Fonts: " HorizontalAlignment="Left" Margin="-146,3,0,-1" VerticalAlignment="Top"/>
+                    <Label x:Name="label1" Content="Size:" HorizontalAlignment="Left" Margin="-138,34,0,-8" VerticalAlignment="Top"/>
+                </Custom:RibbonGroup>
+
+                <Custom:RibbonGroup x:Name="Colours" Header="Colours" Height="88" Margin="0" Width="194">
+                    <ListBox x:Name="listBox_Text_Colors" ItemsSource="{Binding Source={StaticResource colorPropertiesOdp}}"
+                	ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                	ScrollViewer.VerticalScrollBarVisibility="Auto" Margin="0,10,-130,12"   Cursor="Pen" MouseLeftButtonUp="listBox_Text_Colors_MouseLeftButtonUp" MouseRightButtonUp="listBox_Text_Colors_MouseRightButtonUp"  >
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="5" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Ellipse Fill="{Binding Name}" Stroke="Black" StrokeThickness="1" Height="10" Width="10" ToolTip="{Binding Name}"/>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Custom:RibbonGroup>
+                <Custom:RibbonGroup x:Name="GroupBackground" Header="Background" Margin="0">
+                    <RadioButton x:Name="rBtnOpaque" Content="Opaque" HorizontalAlignment="Left" Margin="0,12,0,0" VerticalAlignment="Top" />
+                    <RadioButton x:Name="rBtnTransparent" Content="Transparent" HorizontalAlignment="Left" Margin="0,12,0,0" VerticalAlignment="Top" IsChecked="True" />
+                </Custom:RibbonGroup>
+                <Custom:RibbonGroup Margin="0">
+                    <Button x:Name="button" Content="Confirm" Margin="0,30,0,-10" VerticalAlignment="Top" Width="75" Click="btnConfirm_Click"/>
+                </Custom:RibbonGroup>
+
+
+
+            </Custom:RibbonTab>
+
+        </Custom:Ribbon>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Right" Background="{x:Null}" Margin="0,140,0,0" Width="196">
+            <TabItem Header="Layer">
+                <Grid x:Name="grdLayer" Background="LightGray" Margin="0,-1,-9,1" RenderTransformOrigin="0.281,0.29">
+
+                    <Grid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="New Layer" Click="newLayer_Click"/>
+                        </ContextMenu>
+                    </Grid.ContextMenu>
+                </Grid>
+
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

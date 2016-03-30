@@ -1,0 +1,88 @@
+﻿<Window x:Name="PatternWindows" x:Class="MyPaint.Pattern"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Pattern" Height="300" Width="300" Closing="PatternWindows_Closing" IsVisibleChanged="PatternWindows_IsVisibleChanged">
+    <Grid>
+        <ListView x:Name="listViewTypePattern" HorizontalAlignment="Left" Height="145" Margin="19,72,0,0" VerticalAlignment="Top" Width="251">
+            <ListView.ItemsPanel >
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="3" Width="232"></UniformGrid>
+                </ItemsPanelTemplate>
+
+            </ListView.ItemsPanel>
+            <Rectangle x:Name="chessBoardFill"  HorizontalAlignment="Left" Height="43" Stroke="Black" VerticalAlignment="Top" Width="56" MouseLeftButtonUp="chessBoardFill_MouseLeftBtnUp" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.Fill>
+                    <DrawingBrush x:Name="chessBoard" Stretch="None" TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute">
+
+                        <!-- a drawing of 4 checkerboard tiles -->
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+
+                                <!-- checkerboard background -->
+                                <GeometryDrawing x:Name="chessBoard_Background" Brush="White">
+                                    <GeometryDrawing.Geometry>
+                                        <RectangleGeometry Rect="0,0,20,20" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+
+                                <!-- two checkerboard foreground tiles -->
+                                <GeometryDrawing x:Name="chessBoard_Foreground"  Brush="Black">
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="0,0,10,10" />
+                                            <RectangleGeometry Rect="10,10,10,10" />
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="verticalFill" HorizontalAlignment="Left" Height="43" Stroke="Black" VerticalAlignment="Top" Width="56" MouseLeftButtonUp="verticalFill_LeftBtnUp">
+                <Rectangle.Fill>
+                    <LinearGradientBrush SpreadMethod="Reflect" StartPoint="0, 0" EndPoint="0.05, 0">
+                        <GradientStop x:Name="vertical_Foreground"  Offset="0.5" Color="Black"/>
+                        <GradientStop x:Name="vertical_Background" Offset="0.5" Color="White"/>
+                    </LinearGradientBrush>
+
+                </Rectangle.Fill>
+            </Rectangle>
+
+            <Rectangle x:Name="horizontalFill" HorizontalAlignment="Left" Height="43" Stroke="Black" VerticalAlignment="Top" Width="56" MouseLeftButtonUp="horizontalFill_LeftBtnUp">
+                <Rectangle.Fill>
+                    <LinearGradientBrush x:Name="horizontalBrush" SpreadMethod="Reflect" StartPoint="0, 0" EndPoint="0, 0.05">
+                        <GradientStop x:Name="horizontal_Foreground"  Offset="0.5" Color="Black"/>
+                        <GradientStop x:Name="horizontal_Background" Offset="0.5" Color="White"/>
+                    </LinearGradientBrush>
+
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="diagonalFill1" HorizontalAlignment="Left" Height="43" Stroke="Black" VerticalAlignment="Top" Width="56" MouseLeftButtonUp="diagonalFill1_LeftBtnUp">
+                <Rectangle.Fill>
+                    <LinearGradientBrush SpreadMethod="Reflect" StartPoint="0, 0" EndPoint="0.05, 0.05">
+                        <GradientStop x:Name="diagonal1_Foreground"  Offset="0.5" Color="Black"/>
+                        <GradientStop x:Name="diagonal1_Background" Offset="0.5" Color="White"/>
+                    </LinearGradientBrush>
+
+                </Rectangle.Fill>
+            </Rectangle>
+            <Rectangle x:Name="diagonalFill2" HorizontalAlignment="Left" Height="43" Stroke="Black" VerticalAlignment="Top" Width="56" MouseLeftButtonUp="diagonalFill2_LeftBtnUp">
+                <Rectangle.Fill>
+                    <LinearGradientBrush SpreadMethod="Reflect" StartPoint="0, 0" EndPoint="0.05, -0.05">
+                        <GradientStop x:Name="diagonal2_Foreground"  Offset="0.5" Color="Black"/>
+                        <GradientStop x:Name="diagonal2_Background" Offset="0.5" Color="White"/>
+                    </LinearGradientBrush>
+
+                </Rectangle.Fill>
+            </Rectangle>
+
+        </ListView>
+        <Button x:Name="btnOK" Content="OK" HorizontalAlignment="Left" Height="28" Margin="167,231,0,0" VerticalAlignment="Top" Width="38" Background="Transparent" Click="btnOK_Click" BorderBrush="Blue"/>
+        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Height="28" Margin="232,231,0,0" VerticalAlignment="Top" Width="38" Background="Transparent" Click="btnCancel_Click" BorderBrush="Blue"/>
+
+
+    </Grid>
+</Window>
